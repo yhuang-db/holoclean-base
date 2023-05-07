@@ -25,7 +25,7 @@ hc = holoclean.HoloClean(
 
 # 2. Load training data and denial constraints.
 hc.load_data('crash', '~/sparcle-exp/nyc-crash/crash.csv')
-hc.load_dcs('~/sparcle-exp/nyc-crash/hc_crash_constraints.txt')
+hc.load_dcs('nyc-crash/constraints.txt')
 hc.ds.set_constraints(hc.get_dcs())
 
 # 3. Detect erroneous cells using these two detectors.
