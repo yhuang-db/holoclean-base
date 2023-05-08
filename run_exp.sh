@@ -16,4 +16,4 @@ cd 0-exp
 
 echo "START exp."
 
-bash start_exp.sh nyc-crash/hc_nyc_crash.py
+bash start_exp.sh nyc-crash/eqw_nyc_crash.py
