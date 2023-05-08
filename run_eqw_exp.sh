@@ -1,5 +1,5 @@
 #!/bin/bash
 
-git checkout main
+git checkout equal_weight
 
 bash run_exp.sh
