@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git checkout main
+
 bash 51x_reset_pg_db_user.sh
 
 echo "DONE reset pg."
@@ -12,7 +14,7 @@ source venv/bin/activate
 
 echo "DONE activate venv."
 
-cd 0_exp
+cd 0-exp
 
 echo "START exp."
 
