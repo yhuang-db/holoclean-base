@@ -1,17 +1,18 @@
 import collections
-from functools import lru_cache
 import logging
-import pandas as pd
 import time
+from functools import lru_cache
 
-import itertools
 import numpy as np
+import pandas as pd
 from tqdm import tqdm
 
 from dataset import AuxTables, CellStatus
-from .estimators import *
-from .correlations import compute_norm_cond_entropy_corr
 from utils import NULL_REPR
+from .correlations import compute_norm_cond_entropy_corr
+from .estimators import *
+
+import polars as pl
 
 
 class DomainEngine:
@@ -131,8 +132,8 @@ class DomainEngine:
                     # tau becomes a threshhold on co-occurrence frequency
                     # based on the co-occurrence probability threshold
                     # domain_thresh_1.
-                    tau = float(self.domain_thresh_1*denominator)
-                    top_cands = [(val2, count/denominator) for (val2, count) in pair_stats[attr1][attr2][val1].items() if count > tau]
+                    tau = float(self.domain_thresh_1 * denominator)
+                    top_cands = [(val2, count / denominator) for (val2, count) in pair_stats[attr1][attr2][val1].items() if count > tau]
                     out[attr1][attr2][val1] = top_cands
         return out
 
@@ -150,8 +151,8 @@ class DomainEngine:
             return []
         attr_correlations = self.correlations[attr]
         return sorted([corr_attr
-            for corr_attr, corr_strength in attr_correlations.items()
-            if corr_attr != attr and corr_strength >= thres])
+                       for corr_attr, corr_strength in attr_correlations.items()
+                       if corr_attr != attr and corr_strength >= thres])
 
     def generate_domain(self):
         """
@@ -176,6 +177,17 @@ class DomainEngine:
             init_index: domain index of init_value
             fixed: 1 if a random sample was taken since no correlated attributes/top K values
         """
+        # start of sparcle setup
+        sdc_domain_preparation = {}
+        for sdc in self.ds.sparcle_constraints:
+            sdc_attr = sdc.attr
+            df = pd.read_sql(sdc.get_domain_sql(), self.ds.engine.polars_conn)
+            domain_pdf = pl.DataFrame(df)
+            if sdc_attr in sdc_domain_preparation:
+                sdc_domain_preparation[sdc_attr].append(domain_pdf)
+            else:
+                sdc_domain_preparation[sdc_attr] = [domain_pdf]
+        # end of sparcle setup
 
         if not self.setup_complete:
             raise Exception(
@@ -194,7 +206,10 @@ class DomainEngine:
         for row in tqdm(list(records)):
             tid = row['_tid_']
             for attr in self.ds.get_active_attributes():
-                init_value, init_value_idx, dom = self.get_domain_cell(attr, row)
+                if attr in sdc_domain_preparation:
+                    init_value, init_value_idx, dom = self.get_sparcle_domain_cell(attr, row, sdc_domain_preparation[attr])
+                else:
+                    init_value, init_value_idx, dom = self.get_domain_cell(attr, row)
 
                 # We will use an estimator model for additional weak labelling
                 # below, which requires an initial pruned domain first.
@@ -209,7 +224,7 @@ class DomainEngine:
                     # Initial value is NULL and we cannot come up with
                     # a domain (note that NULL is not included in the domain)
                     if init_value == NULL_REPR and len(dom) == 0:
-                       continue
+                        continue
 
                     # Not enough domain values, we need to get some random
                     # values (other than 'init_value') for training. However,
@@ -249,6 +264,33 @@ class DomainEngine:
         logging.debug('DONE generating initial set of domain values in %.2fs', time.perf_counter() - tic)
 
         return domain_df
+
+    def get_sparcle_domain_cell(self, attr, row, list_domain_pdf):
+        tid = row['_tid_']
+        init_value = row[attr]
+
+        domain_set = set()
+        if init_value != NULL_REPR:
+            domain_set.add(init_value)
+
+        for pdf in list_domain_pdf:
+            domain_from_dm = pdf.filter(pl.col("tid_1") == tid).select(pl.col("domain"))
+            if domain_from_dm.is_empty():
+                pdf_domain = set(self.get_random_domain(attr, set()))
+            else:
+                pdf_domain = set(domain_from_dm.item())
+            domain_set.update(pdf_domain)
+
+        assert NULL_REPR not in domain_set
+        domain_lst = sorted(list(domain_set))  # Convert to ordered list to preserve order.
+
+        # Get the index of the initial value.
+        # NULL values are not in the domain so we set their index to -1.
+        init_value_idx = -1
+        if init_value != NULL_REPR:
+            init_value_idx = domain_lst.index(init_value)
+
+        return init_value, init_value_idx, domain_lst
 
     def get_domain_cell(self, attr, row):
         """
@@ -404,7 +446,7 @@ class DomainEngine:
         # pruning based on estimator's posterior probabilities.
         if self.env['estimator_type'] is None \
                 or (self.env['weak_label_thresh'] == 1 \
-                and self.env['domain_thresh_2'] == 0):
+                    and self.env['domain_thresh_2'] == 0):
             return self.domain_df
 
         domain_df = self.domain_df.sort_values('_vid_')
@@ -486,8 +528,8 @@ class DomainEngine:
 
         # update our cell domain df with our new updated domain
         domain_df = pd.DataFrame.from_records(updated_domain_df,
-                columns=updated_domain_df[0].dtype.names)\
-                        .drop('index', axis=1).sort_values('_vid_')
+                                              columns=updated_domain_df[0].dtype.names) \
+            .drop('index', axis=1).sort_values('_vid_')
         logging.debug('DONE assembling cell domain table in %.2fs', time.perf_counter() - tic)
 
         logging.info('number of (additional) weak labels assigned from estimator: %d', num_weak_labels)

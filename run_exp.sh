@@ -12,7 +12,7 @@ source venv/bin/activate
 
 echo "DONE activate venv."
 
-cd 0_exp
+cd 0-exp
 
 echo "START exp."
 

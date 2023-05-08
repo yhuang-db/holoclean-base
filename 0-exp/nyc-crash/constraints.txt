@@ -1,0 +1,2 @@
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.boro,t2.boro)
+

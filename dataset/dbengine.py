@@ -1,8 +1,8 @@
-from functools import partial
 import logging
+import time
+from functools import partial
 from multiprocessing import Pool
 from string import Template
-import time
 
 import psycopg2
 import sqlalchemy as sql
@@ -10,6 +10,8 @@ import sqlalchemy as sql
 index_template = Template('CREATE INDEX $idx_title ON "$table" ($attrs)')
 drop_table_template = Template('DROP TABLE IF EXISTS "$table"')
 create_table_template = Template('CREATE TABLE "$table" AS ($stmt)')
+create_gist_index_template = Template('CREATE INDEX $idx_title ON "$table" USING GIST ($spatial_attr)')
+cluster_table_on_index_template = Template('CLUSTER "$table" USING $idx_title')
 
 
 class DBengine:
@@ -17,6 +19,7 @@ class DBengine:
     A wrapper class for postgresql engine.
     Maintains connections and executes queries.
     """
+
     def __init__(self, user, pwd, db, host='localhost', port=5432, pool_size=20, timeout=60000):
         self.timeout = timeout
         self._pool = Pool(pool_size) if pool_size > 1 else None
@@ -27,6 +30,7 @@ class DBengine:
         con = con.format(db, user, pwd, host, port)
         self.conn_args = con
         self.engine = sql.create_engine(url, client_encoding='utf8', pool_size=pool_size)
+        self.polars_conn = f"postgresql://{user}:{pwd}@{host}:{port}/{db}"
 
     def execute_queries(self, queries):
         """
@@ -38,7 +42,7 @@ class DBengine:
         tic = time.perf_counter()
         results = self._apply_func(partial(_execute_query, conn_args=self.conn_args), [(idx, q) for idx, q in enumerate(queries)])
         toc = time.perf_counter()
-        logging.debug('Time to execute %d queries: %.2f secs', len(queries), toc-tic)
+        logging.debug('Time to execute %d queries: %.2f secs', len(queries), toc - tic)
         return results
 
     def execute_queries_w_backup(self, queries):
@@ -53,7 +57,7 @@ class DBengine:
             partial(_execute_query_w_backup, conn_args=self.conn_args, timeout=self.timeout),
             [(idx, q) for idx, q in enumerate(queries)])
         toc = time.perf_counter()
-        logging.debug('Time to execute %d queries: %.2f secs', len(queries), toc-tic)
+        logging.debug('Time to execute %d queries: %.2f secs', len(queries), toc - tic)
         return results
 
     def execute_query(self, query):
@@ -68,7 +72,7 @@ class DBengine:
         result = conn.execute(query).fetchall()
         conn.close()
         toc = time.perf_counter()
-        logging.debug('Time to execute query: %.2f secs', toc-tic)
+        logging.debug('Time to execute query: %.2f secs', toc - tic)
         return result
 
     def create_db_table_from_query(self, name, query):
@@ -81,7 +85,7 @@ class DBengine:
             conn.execute(drop)
             conn.execute(create)
         toc = time.perf_counter()
-        logging.debug('Time to create table: %.2f secs', toc-tic)
+        logging.debug('Time to create table: %.2f secs', toc - tic)
         return True
 
     def create_db_index(self, name, table, attr_list):
@@ -102,7 +106,37 @@ class DBengine:
             stmt = sql.text(stmt)
             result = conn.execute(stmt)
         toc = time.perf_counter()
-        logging.debug('Time to create index: %.2f secs', toc-tic)
+        logging.debug('Time to create index: %.2f secs', toc - tic)
+        return result
+
+    def create_spatial_db_index(self, name, table, spatial_attr):
+        """
+        create_spatial_db_index creates a GIST index on the column
+        specified in :param spatial_attr: with the given :param name: on
+        :param table:.
+        :param name: (str) name of index
+        :param table: (str) name of table
+        :param spatial_attr: spatial attribute to create index on
+        """
+        # We need to quote each attribute since Postgres auto-downcases unquoted column references
+        s_attr = f'"{spatial_attr}"'
+        sql_create_gist = create_gist_index_template.substitute(idx_title=name, table=table, spatial_attr=s_attr)
+        tic = time.perf_counter()
+        with self.engine.begin() as conn:
+            sql_create_gist = sql.text(sql_create_gist)
+            result = conn.execute(sql_create_gist)
+        toc = time.perf_counter()
+        logging.debug('SPARCLE: Time to create spatial index: %.2f secs', toc - tic)
+        return result
+
+    def cluster_db_using_index(self, table_name, index_name):
+        sql_cluster = cluster_table_on_index_template.substitute(idx_title=index_name, table=table_name)
+        tic = time.perf_counter()
+        with self.engine.begin() as conn:
+            sql_cluster = sql.text(sql_cluster)
+            result = conn.execute(sql_cluster)
+        toc = time.perf_counter()
+        logging.debug('SPARCLE: Time to cluster table on index: %.2f secs', toc - tic)
         return result
 
     def _apply_func(self, func, collection):
@@ -134,7 +168,7 @@ def _execute_query_w_backup(args, conn_args, timeout):
     tic = time.perf_counter()
     con = psycopg2.connect(conn_args)
     cur = con.cursor()
-    cur.execute("SET statement_timeout to %d;"%timeout)
+    cur.execute("SET statement_timeout to %d;" % timeout)
     try:
         cur.execute(query)
         res = cur.fetchall()
