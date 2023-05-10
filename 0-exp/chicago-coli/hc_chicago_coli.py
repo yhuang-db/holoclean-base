@@ -20,12 +20,12 @@ hc = holoclean.HoloClean(
     print_fw=True,
     # sparcle experiment setups
     epochs=5,
-    train_attrs=['boro', 'zipcode'],
+    train_attrs=['zipcode', 'ward', 'ca_num', 'ca_name'],
 ).session
 
 # 2. Load training data and denial constraints.
-hc.load_data('crash', '~/sparcle-exp/nyc-crash/crash.csv')
-hc.load_dcs('nyc-crash/crash_constraints.txt')
+hc.load_data('coli', '~/sparcle-exp/chicago-coli/coli.csv')
+hc.load_dcs('chicago-coli/coli_constraints.txt')
 hc.ds.set_constraints(hc.get_dcs())
 
 # 3. Detect erroneous cells using these two detectors.
@@ -44,7 +44,7 @@ featurizers = [
 hc.repair_errors(featurizers)
 
 # 5. Evaluate the correctness of the results.
-report = hc.evaluate(fpath='~/sparcle-exp/nyc-crash/hc_crash_clean.csv',
+report = hc.evaluate(fpath='~/sparcle-exp/chicago-coli/hc_coli_clean.csv',
                      tid_col='tid',
                      attr_col='attribute',
                      val_col='correct_val')
