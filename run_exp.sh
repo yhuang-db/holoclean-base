@@ -14,6 +14,11 @@ echo "DONE activate venv."
 
 cd 0-exp
 
-echo "START exp."
+if [ $# -eq 2 ]; then
+  city="$1"
+  dataset="$2"
+fi
 
-bash start_exp.sh nyc-crash/hc_nyc_crash.py
+echo "START exp $city-$dataset."
+
+bash start_exp.sh "$city"-"$dataset"/hc_"$city"_"$dataset".py
