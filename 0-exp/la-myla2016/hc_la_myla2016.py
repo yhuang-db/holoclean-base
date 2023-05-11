@@ -24,7 +24,7 @@ hc = holoclean.HoloClean(
 ).session
 
 # 2. Load training data and denial constraints.
-hc.load_data('myla', '~/sparcle-exp/data/la-myla2016/myla2016.csv.csv')
+hc.load_data('myla', '~/sparcle-exp/data/la-myla2016/myla2016.csv')
 hc.load_dcs('la-myla2016/myla2016_constraints.txt')
 hc.ds.set_constraints(hc.get_dcs())
 
@@ -44,7 +44,7 @@ featurizers = [
 hc.repair_errors(featurizers)
 
 # 5. Evaluate the correctness of the results.
-report = hc.evaluate(fpath='~/sparcle-exp/data/la-myla2016/hc_myla2016_clean.csv.csv',
+report = hc.evaluate(fpath='~/sparcle-exp/data/la-myla2016/hc_myla2016_clean.csv',
                      tid_col='tid',
                      attr_col='attribute',
                      val_col='correct_val')

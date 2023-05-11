@@ -24,7 +24,7 @@ hc = holoclean.HoloClean(
 ).session
 
 # 2. Load training data and denial constraints.
-hc.load_data('crash', '~/sparcle-exp/nyc-crash/crash.csv')
+hc.load_data('crash', '~/sparcle-exp/data/nyc-crash/crash.csv')
 hc.load_dcs('nyc-crash/crash_constraints.txt')
 hc.ds.set_constraints(hc.get_dcs())
 
@@ -44,7 +44,7 @@ featurizers = [
 hc.repair_errors(featurizers)
 
 # 5. Evaluate the correctness of the results.
-report = hc.evaluate(fpath='~/sparcle-exp/nyc-crash/hc_crash_clean.csv',
+report = hc.evaluate(fpath='~/sparcle-exp/data/nyc-crash/hc_crash_clean.csv',
                      tid_col='tid',
                      attr_col='attribute',
                      val_col='correct_val')
