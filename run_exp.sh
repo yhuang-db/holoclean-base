@@ -21,4 +21,4 @@ fi
 
 echo "START exp $city-$dataset."
 
-bash run_exp_driver.sh "$city"_"$dataset".toml
+bash run_exp_driver.sh "$city"-"$dataset"/"$city"_"$dataset".toml
