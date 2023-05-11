@@ -1,0 +1,8 @@
+[dataset]
+city = "la"
+name = "myla2016"
+dir = "~/sparcle-exp/data/la-myla2016"
+
+db_name = "holodb"
+epochs = 5
+attrs = ["zipcode", "apc", "cd", "nc", "nc_name", "division"]

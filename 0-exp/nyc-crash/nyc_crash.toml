@@ -1,0 +1,8 @@
+[dataset]
+city = "nyc"
+name = "crash"
+dir = "~/sparcle-exp/data/nyc-crash"
+
+db_name = "holodb"
+epochs = 5
+attrs = ["boro", "zipcode"]
