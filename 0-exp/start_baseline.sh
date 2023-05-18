@@ -25,4 +25,4 @@ echo "DB $db_name created/reset."
 exp_config="$city"-"$dataset"/"$city"_"$dataset".toml
 
 echo "Launching experiment config $exp_config"
-python hc_baseline_driver.py -t "$exp_config"
+python hc_baseline_driver.py -t "$exp_config" -d "$db_name"
