@@ -1,0 +1,3 @@
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.zipcode,t2.zipcode)
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.city,t2.city)
+t1&t2&EQ(t1.zipcode,t2.zipcode)&IQ(t1.city,t2.city)

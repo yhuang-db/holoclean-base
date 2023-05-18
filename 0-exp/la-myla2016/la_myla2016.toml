@@ -3,6 +3,5 @@ city = "la"
 name = "myla2016"
 dir = "~/sparcle-exp/data/la-myla2016"
 
-db_name = "holodb_hc"
-epochs = 5
+epochs = 3
 attrs = ["zipcode", "apc", "cd", "nc", "nc_name", "division"]

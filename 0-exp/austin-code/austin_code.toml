@@ -1,0 +1,7 @@
+[dataset]
+city = "austin"
+name = "code"
+dir = "~/sparcle-exp/data/austin-code"
+
+epochs = 3
+attrs = ["city", "zipcode"]

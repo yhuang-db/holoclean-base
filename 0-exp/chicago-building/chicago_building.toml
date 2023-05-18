@@ -1,0 +1,7 @@
+[dataset]
+city = "chicago"
+name = "building"
+dir = "~/sparcle-exp/data/chicago-building"
+
+epochs = 3
+attrs = ["ca", "ct", "ward"]

@@ -7,13 +7,19 @@ from repair.featurize import *
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--DBName")
     parser.add_argument("-t", "--Toml")
     args = parser.parse_args()
 
+    # dbms
+    db_name = args.DBName
+    print(f'db_name: {db_name}')
+
+    # toml config
     toml_file = args.Toml
     print(f'Experiment configure file: {toml_file}')
-
     toml_dict = toml.load(toml_file)
+
     exp_dataset = toml_dict['dataset']
     city = exp_dataset['city']
     dataset_name = exp_dataset['name']
@@ -27,10 +33,8 @@ if __name__ == '__main__':
     print(f'Constraint file: {constraint_file_path}')
     print(f'Clean file: {hc_clean_file_path}')
 
-    db_name = exp_dataset['db_name']
     epochs = int(exp_dataset['epochs'])
     attrs = exp_dataset['attrs']
-    print(f'db_name: {db_name}')
     print(f'epochs: {epochs}')
     print(f'train_attr: {attrs}')
 
@@ -39,17 +43,13 @@ if __name__ == '__main__':
     hc = holoclean.HoloClean(
         db_name=db_name,
         domain_thresh_1=0.0,
-        domain_thresh_2=0.0,
-        weak_label_thresh=0.99,
+        domain_thresh_2=0.01,
+        weak_label_thresh=0.95,
         max_domain=10000,
         cor_strength=0.6,
         nb_cor_strength=0.8,
-        weight_decay=0.01,
-        learning_rate=0.001,
-        threads=1,
-        batch_size=1,
         verbose=True,
-        timeout=3 * 60000,
+        timeout=5 * 60000,
         print_fw=True,
         # sparcle experiment setups
         epochs=epochs,

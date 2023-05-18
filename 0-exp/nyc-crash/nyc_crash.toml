@@ -3,6 +3,5 @@ city = "nyc"
 name = "crash"
 dir = "~/sparcle-exp/data/nyc-crash"
 
-db_name = "holodb_hc"
-epochs = 5
+epochs = 3
 attrs = ["boro", "zipcode"]
