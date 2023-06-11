@@ -5,6 +5,8 @@ import holoclean
 from detect import *
 from repair.featurize import *
 
+from eval_driver import attr_evaluation
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--DBName")
@@ -81,3 +83,7 @@ if __name__ == '__main__':
                          tid_col='tid',
                          attr_col='attribute',
                          val_col='correct_val')
+
+    # 6. Attribute evaluation
+    if 'evaluation' in toml_dict:
+        attr_evaluation(toml_dict, city, dataset_name)

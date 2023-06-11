@@ -12,3 +12,5 @@ sqlalchemy
 torch
 tqdm
 toml
+duckdb
+polars
