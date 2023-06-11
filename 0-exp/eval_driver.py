@@ -14,7 +14,7 @@ def attr_evaluation(toml_dict, dataset_city, dataset_name):
     pwd = "holopass"
     host = "localhost"
     port = "5432"
-    db = f"holodb_{dataset_name}"
+    db = f"holodb_hc_{dataset_name}"
     polars_conn = f"postgresql://{user}:{pwd}@{host}:{port}/{db}"
 
     # read database
