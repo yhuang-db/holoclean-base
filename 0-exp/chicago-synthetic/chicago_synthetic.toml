@@ -9,4 +9,4 @@ attrs = ["pd", "ward", "zipcode", "ca_num", "ca_name", "nb", "beat", "ct"]
 
 [evaluation]
 eval_attrs = ["pd", "ward", "zipcode", "ca_num", "ca_name", "nb", "beat", "ct"]
-file_name = "synthetic_100000_hc.csv"
+file_name = "synthetic_hc.csv"
