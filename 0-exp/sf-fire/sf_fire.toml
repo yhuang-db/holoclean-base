@@ -1,7 +1,0 @@
-[dataset]
-city = "sf"
-name = "fire"
-dir = "~/sparcle-exp/data/sf-fire"
-
-epochs = 3
-attrs = ["zipcode", "sd", "nd"]

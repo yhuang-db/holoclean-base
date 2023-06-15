@@ -1,7 +1,0 @@
-[dataset]
-city = "chicago"
-name = "coli"
-dir = "~/sparcle-exp/data/chicago-coli"
-
-epochs = 3
-attrs = ["zipcode", "ward", "ca_num", "ca_name"]

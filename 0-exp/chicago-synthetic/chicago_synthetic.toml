@@ -4,9 +4,9 @@ name = "synthetic"
 dir = "~/sparcle-exp/data/chicago-synthetic"
 
 epochs = 3
-attrs = ["pd", "ward", "zipcode", "ca_num", "ca_name", "nb", "beat", "ct"]
+attrs = ["pd", "ward", "zipcode", "beat", "ct"]
 
 
 [evaluation]
-eval_attrs = ["pd", "ward", "zipcode", "ca_num", "ca_name", "nb", "beat", "ct"]
+eval_attrs = ["pd", "ward", "zipcode", "beat", "ct"]
 file_name = "synthetic_hc.csv"

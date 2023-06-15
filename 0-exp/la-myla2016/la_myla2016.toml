@@ -4,4 +4,4 @@ name = "myla2016"
 dir = "~/sparcle-exp/data/la-myla2016"
 
 epochs = 3
-attrs = ["zipcode", "apc", "cd", "nc", "nc_name", "division"]
+attrs = ["zipcode", "nc", "nc_name", "division"]
