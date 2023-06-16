@@ -94,4 +94,4 @@ def attr_evaluation(toml_dict, dataset_city, dataset_name):
 
     # export to csv
     file_name = evaluation_config['file_name']
-    t.to_csv(f"{dataset_city}-{dataset_name}/{file_name}")
+    t.to_csv(f"{dataset_city}-{dataset_name}/{file_name}", float_format="%.3f")
