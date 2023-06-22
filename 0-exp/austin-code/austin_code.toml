@@ -5,3 +5,7 @@ dir = "~/sparcle-exp/data/austin-code"
 
 epochs = 3
 attrs = ["city", "zipcode"]
+
+[evaluation]
+eval_attrs = ["city", "zipcode"]
+file_name = "austin_hc.csv"
