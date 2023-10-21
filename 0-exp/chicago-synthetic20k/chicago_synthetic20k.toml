@@ -1,0 +1,12 @@
+[dataset]
+city = "chicago"
+name = "synthetic20k"
+dir = "~/sparcle-exp/data/chicago-synthetic20k"
+
+epochs = 3
+attrs = ["pd", "ward", "zipcode", "beat", "ct"]
+
+
+[evaluation]
+eval_attrs = ["pd", "ward", "zipcode", "beat", "ct"]
+file_name = "synthetic20k_hc.csv"
