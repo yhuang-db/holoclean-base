@@ -1,0 +1,11 @@
+[dataset]
+city = "atlanta"
+name = "crime"
+dir = "~/sparcle-exp/data/atlanta-crime"
+
+epochs = 3
+attrs = ["neighborhood", "npu", "cd"]
+
+[evaluation]
+eval_attrs = ["neighborhood", "npu", "cd"]
+file_name = "atlanta_hc.csv"
