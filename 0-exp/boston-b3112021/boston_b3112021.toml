@@ -1,0 +1,7 @@
+[dataset]
+city = "boston"
+name = "b3112021"
+dir = "~/sparcle-exp/data/boston-b3112021"
+
+epochs = 3
+attrs = ["fired", "pwdd", "policed", "ward", "precinct", "zipcode"]
