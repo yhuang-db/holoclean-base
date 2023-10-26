@@ -5,3 +5,7 @@ dir = "~/sparcle-exp/data/la-myla2016"
 
 epochs = 3
 attrs = ["zipcode", "nc", "nc_name", "division"]
+
+[evaluation]
+eval_attrs = ["zipcode", "nc", "nc_name", "division"]
+file_name = "la_hc.csv"

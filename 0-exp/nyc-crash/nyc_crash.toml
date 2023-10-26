@@ -5,3 +5,7 @@ dir = "~/sparcle-exp/data/nyc-crash"
 
 epochs = 3
 attrs = ["boro", "zipcode"]
+
+[evaluation]
+eval_attrs = ["boro", "zipcode"]
+file_name = "nyc_hc.csv"

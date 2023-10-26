@@ -5,3 +5,7 @@ dir = "~/sparcle-exp/data/chicago-building"
 
 epochs = 3
 attrs = ["ca", "ct", "ward"]
+
+[evaluation]
+eval_attrs = ["ca", "ct", "ward"]
+file_name = "chicago_hc.csv"
