@@ -1,5 +1,3 @@
 t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.pd,t2.pd)
 t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.ward,t2.ward)
 t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.zipcode,t2.zipcode)
-t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.beat,t2.beat)
-t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.ct,t2.ct)

@@ -1,7 +1,7 @@
 [dataset]
 city = "chicago"
-name = "synthetic100k"
-dir = "~/sparcle-exp/data/chicago-synthetic100k"
+name = "synthetic1000k"
+dir = "~/sparcle-exp/data/chicago-synthetic1000k"
 
 epochs = 3
 attrs = ["pd", "ward", "zipcode"]
@@ -9,4 +9,4 @@ attrs = ["pd", "ward", "zipcode"]
 
 [evaluation]
 eval_attrs = ["pd", "ward", "zipcode"]
-file_name = "synthetic100k_hc.csv"
+file_name = "synthetic1000k_hc.csv"
