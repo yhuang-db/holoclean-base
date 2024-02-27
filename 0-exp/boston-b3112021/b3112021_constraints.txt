@@ -1,6 +1,5 @@
-t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.fired,t2.fired)
-t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.pwdd,t2.pwdd)
-t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.policed,t2.policed)
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.pwd,t2.pwd)
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.pd,t2.pd)
 t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.ward,t2.ward)
 t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.precinct,t2.precinct)
 t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.zipcode,t2.zipcode)
