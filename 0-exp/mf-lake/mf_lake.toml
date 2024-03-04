@@ -1,0 +1,11 @@
+[dataset]
+city = "mf"
+name = "lake"
+dir = "~/sparcle-exp/data/mf-lake"
+
+epochs = 3
+attrs = ["a0", "a1", "a2", "a3", "a4"]
+
+[evaluation]
+eval_attrs = ["a0", "a1", "a2", "a3", "a4"]
+file_name = "lake_hc.csv"

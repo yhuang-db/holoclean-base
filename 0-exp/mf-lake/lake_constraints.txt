@@ -1,0 +1,5 @@
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.a0,t2.a0)
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.a1,t2.a1)
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.a2,t2.a2)
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.a3,t2.a3)
+t1&t2&EQ(t1.x,t2.x)&EQ(t1.y,t2.y)&IQ(t1.a4,t2.a4)
