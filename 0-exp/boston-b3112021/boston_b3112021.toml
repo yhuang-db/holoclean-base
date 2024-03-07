@@ -4,8 +4,8 @@ name = "b3112021"
 dir = "~/sparcle-exp/data/boston-b3112021"
 
 epochs = 3
-attrs = ["pwd", "pd", "ward", "precinct", "zipcode"]
+attrs = ["pwd", "pd", "ward", "zipcode"]
 
 [evaluation]
-eval_attrs = ["pwd", "pd", "ward", "precinct", "zipcode"]
+eval_attrs = ["pwd", "pd", "ward", "zipcode"]
 file_name = "b3112021_hc.csv"
