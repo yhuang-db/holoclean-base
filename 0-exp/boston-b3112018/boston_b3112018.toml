@@ -1,11 +1,11 @@
 [dataset]
 city = "boston"
-name = "b3112021"
-dir = "~/sparcle-exp/data/boston-b3112021"
+name = "b3112018"
+dir = "~/sparcle-exp/data/boston-b3112018"
 
 epochs = 3
 attrs = ["pwd", "pd", "ward", "zipcode"]
 
 [evaluation]
 eval_attrs = ["pwd", "pd", "ward", "zipcode"]
-file_name = "b3112021_hc.csv"
+file_name = "b3112018_hc.csv"
