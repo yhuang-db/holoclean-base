@@ -1,11 +1,12 @@
 import argparse
+import time
+
 import toml
 
 import holoclean
 from detect import *
-from repair.featurize import *
-
 from eval_driver import attr_evaluation
+from repair.featurize import *
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -41,6 +42,7 @@ if __name__ == '__main__':
     print(f'train_attr: {attrs}')
 
     # ~~ read exp arguments ~~
+    start = time.perf_counter()
 
     hc = holoclean.HoloClean(
         db_name=db_name,
@@ -83,7 +85,9 @@ if __name__ == '__main__':
                          tid_col='tid',
                          attr_col='attribute',
                          val_col='correct_val')
+    end = time.perf_counter()
+    runtime = time.strftime("%Hh%Mm%Ss", time.gmtime(end - start))
 
     # 6. Attribute evaluation
     if 'evaluation' in toml_dict:
-        attr_evaluation(toml_dict, city, dataset_name)
+        attr_evaluation(toml_dict, city, dataset_name, runtime)

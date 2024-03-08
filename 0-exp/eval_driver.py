@@ -3,7 +3,7 @@ import polars as pl
 import pandas as pd
 
 
-def attr_evaluation(toml_dict, dataset_city, dataset_name):
+def attr_evaluation(toml_dict, dataset_city, dataset_name, runtime):
     print("\n Evaluate per attribute")
 
     evaluation_config = toml_dict['evaluation']
@@ -94,4 +94,4 @@ def attr_evaluation(toml_dict, dataset_city, dataset_name):
 
     # export to csv
     file_name = evaluation_config['file_name']
-    t.to_csv(f"{dataset_city}-{dataset_name}/{file_name}", float_format="%.3f")
+    t.to_csv(f"{dataset_city}-{dataset_name}/{file_name}_{runtime}", float_format="%.3f")
