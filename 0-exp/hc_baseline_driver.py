@@ -57,7 +57,7 @@ if __name__ == '__main__':
         print_fw=True,
         # sparcle experiment setups
         epochs=epochs,
-        # train_attrs=attrs,
+        train_attrs=attrs,
     ).session
 
     # 2. Load training data and denial constraints.
